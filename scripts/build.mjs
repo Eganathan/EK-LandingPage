@@ -4,6 +4,7 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'dist');
 const siteUrl = new URL(process.env.SITE_URL || 'http://127.0.0.1:1318/');
+if (siteUrl.hostname.endsWith('.github.io')) siteUrl.protocol = 'https:';
 if (!['https:', 'http:'].includes(siteUrl.protocol)) throw new Error('SITE_URL must be an HTTP(S) URL');
 siteUrl.search = ''; siteUrl.hash = '';
 if (!siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/';
