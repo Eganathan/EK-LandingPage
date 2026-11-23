@@ -27,7 +27,7 @@ The generated HTML contains profile copy, socials, talk notes and recent items w
 
 This public repository owns both static source and deployment. The workflow builds on pushes to main and publishes only dist/. No PHP files, credentials or legacy source history are part of this repository.
 
-GitHub Pages: https://eganathan.github.io/landingPage/
+GitHub Pages: https://eganathan.github.io/EK-LandingPage/
 
 Canonical, social image and structured-data URLs are rendered from SITE_URL; configure-pages supplies the current configured Pages URL. After setting the custom domain, rerun the deployment so metadata uses it. Domain/DNS remapping is managed by the owner.
 
