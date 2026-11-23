@@ -1,0 +1,50 @@
+{
+  "blog": [
+    {
+      "title": "Why Are We Still Writing Backends from Scratch?",
+      "url": "https://md.eknath.dev/posts/software-development/why-are-we-still-writing-backends-from-scratch/",
+      "description": "Every new project starts with the same exhausting plumbing. What if we mapped the protocol landscape, embraced REST's hierarchical clarity, and built an engine …",
+      "date": "2026-11-22"
+    },
+    {
+      "title": "Seeing Software Through Abstraction",
+      "url": "https://md.eknath.dev/posts/software-development/seeing-software-through-abstraction/",
+      "description": "A reflection on zooming out from technologies to responsibilities, and bringing our own experience and care to what we build.",
+      "date": "2026-11-15"
+    },
+    {
+      "title": "The Silent Anchor: Reflections on Work Ethics in the Modern Workplace",
+      "url": "https://md.eknath.dev/posts/personal/work-ethics-at-workplace/",
+      "description": "Moving beyond performative diligence and hero culture toward quiet reliability, craftsmanship, and an uncompromised internal compass.",
+      "date": "2026-09-16"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Tazk - Personal Task Management Tool",
+      "url": "https://projects.eknath.dev/projects/tazk/",
+      "description": "A comprehensive personal task management platform with group organization, timers, and detailed task notes",
+      "date": "2025-10-09"
+    },
+    {
+      "title": "Stickylets - Java Swing Sticky Notes App",
+      "url": "https://projects.eknath.dev/projects/stickylets/",
+      "description": "A desktop sticky notes application built with Java Swing and MySQL, featuring search functionality and markdown parsing",
+      "date": "2025-10-09"
+    }
+  ],
+  "quickref": [
+    {
+      "title": "CocoaPods",
+      "url": "https://qref.eknath.dev/tools/cocoapods/",
+      "description": "Dependency manager for Swift and Objective-C Cocoa projects, simplifying the integration of third-party libraries.",
+      "date": "2026-04-08"
+    },
+    {
+      "title": "KiCad",
+      "url": "https://qref.eknath.dev/tools/kicad/",
+      "description": "A free and open-source software suite for electronic design automation (EDA).",
+      "date": "2025-09-03"
+    }
+  ]
+}

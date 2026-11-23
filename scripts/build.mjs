@@ -1,0 +1,32 @@
+import { readFile, writeFile, mkdir, cp, rm } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const output = path.join(root, 'dist');
+const siteUrl = new URL(process.env.SITE_URL || 'http://127.0.0.1:1318/');
+if (!['https:', 'http:'].includes(siteUrl.protocol)) throw new Error('SITE_URL must be an HTTP(S) URL');
+siteUrl.search = ''; siteUrl.hash = '';
+if (!siteUrl.pathname.endsWith('/')) siteUrl.pathname += '/';
+const publicUrl = siteUrl.href;
+const publicImage = new URL('images/profile.jpg', siteUrl).href;
+const profile = JSON.parse(await readFile(path.join(root, 'data/profile.json'), 'utf8'));
+const landing = JSON.parse(await readFile(path.join(root, 'data/landing.json'), 'utf8'));
+const recent = JSON.parse(await readFile(path.join(root, 'data/recent.json'), 'utf8'));
+const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+const items = (list, origin, compact = false) => (list || []).filter(item => new URL(item.url).origin === origin).map(item => {
+  if (compact) return `<li class="recent-item"><details><summary>${escape(item.title.split(' - ')[0])}</summary><p>${escape(item.description)}</p><a href="${escape(item.url)}">Open ${origin.includes('projects') ? 'project' : 'reference'}</a></details></li>`;
+  const date = new Date(item.date + 'T00:00:00Z');
+  const time = Number.isNaN(date.getTime()) ? '' : `<time datetime="${escape(item.date)}">${escape(new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(date))}</time>`;
+  return `<li class="recent-item"><a href="${escape(item.url)}">${compact ? '' : time}<h3>${escape(compact ? item.title.split(' - ')[0] : item.title)}</h3>${compact ? '' : `<p>${escape(item.description)}</p><span class="article-label">Read article</span>`}</a></li>`;
+}).join('\n');
+const structuredData = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Person', name: profile.name, alternateName: profile.nickname, url: publicUrl, image: publicImage, jobTitle: profile.jobTitle, worksFor: { '@type': 'Organization', name: profile.organisation }, knowsAbout: profile.interests, sameAs: [profile.linkedin, 'https://github.com/Eganathan', 'https://x.com/eknath_dev', 'https://stackoverflow.com/users/6462865/eknath', 'https://g.dev/eknath'] }).replace(/</g, '\\u003c');
+const values = { ...Object.fromEntries(Object.entries({ ...profile, ...landing }).map(([key, value]) => [key, escape(value)])), siteUrl: escape(publicUrl), siteImage: escape(publicImage), structuredData, blogItems: items(recent.blog, 'https://md.eknath.dev'), projectItems: items(recent.projects, 'https://projects.eknath.dev', true), quickrefItems: items(recent.quickref, 'https://qref.eknath.dev', true) };
+const template = await readFile(path.join(root, 'src/index.html'), 'utf8');
+const html = template.replace(/\{\{(\w+)\}\}/g, (_, key) => { if (!(key in values)) throw new Error(`Unknown template field ${key}`); return values[key]; });
+await rm(output, { recursive: true, force: true });
+await mkdir(output, { recursive: true });
+await writeFile(path.join(output, 'index.html'), html);
+await writeFile(path.join(output, '.nojekyll'), '');
+// Explicit public assets only: PHP endpoints, deployment scripts and source stay out.
+for (const name of ['css', 'js', 'images', 'webfonts', 'favicon.ico']) await cp(path.join(root, name), path.join(output, name), { recursive: true });
+console.log('Static landing page built in dist/');
