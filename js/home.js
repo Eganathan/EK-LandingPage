@@ -1,4 +1,31 @@
 (() => {
+  const contactDialog = document.querySelector('.contact-dialog');
+  const contactFrame = contactDialog?.querySelector('iframe');
+  const dialogTitle = document.querySelector('#contact-dialog-title');
+  let contactOpener;
+  if (contactDialog && typeof contactDialog.showModal === 'function') {
+    document.querySelectorAll('[data-contact]').forEach(link => {
+      link.addEventListener('click', event => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        contactOpener = link;
+        dialogTitle.textContent = link.dataset.contact;
+        if (!contactFrame.hasAttribute('src')) contactFrame.src = contactFrame.dataset.src;
+        contactDialog.showModal();
+        document.documentElement.classList.add('contact-open');
+      });
+    });
+    contactDialog.querySelector('.dialog-close').addEventListener('click', () => contactDialog.close());
+    contactDialog.addEventListener('click', event => {
+      const bounds = contactDialog.getBoundingClientRect();
+      if (event.target === contactDialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) contactDialog.close();
+    });
+    contactDialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('contact-open');
+      contactOpener?.focus({ preventScroll: true });
+    });
+  }
+
   const toggle = document.querySelector('.theme-toggle');
   const updateThemeControl = () => {
     const dark = document.documentElement.dataset.theme === 'dark';

@@ -35,7 +35,7 @@ Legacy PHP source/history remains in the separate private eknath_dev repository.
 
 ## Contact
 
-Contact and feedback now use `mailto:mail@eknath.dev`, opening the visitor's email client. No message is sent by the site. The old anonymous PHP mail form is not present in the static version. A future anonymous form requires an explicitly selected external service or backend; no service has been silently added.
+Primary contact, speaking and community actions open the owner-provided Google Form in a responsive native dialog. The iframe loads only when opened and keeps entered content when the dialog closes. Direct form links work without JavaScript; a new-tab link remains available in the dialog. Email and email-copy remain alternatives. Close/Escape return focus to the opener. No form responses are submitted during verification. The supplied form currently requires Google sign-in; anonymous access must be configured by the owner in Google Forms.
 
 ## Verification
 

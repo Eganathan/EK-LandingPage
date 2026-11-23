@@ -50,3 +50,19 @@ footer a{margin-left:0}footer a:first-of-type{margin-left:auto}
 .collections details p{font-size:.9375rem;line-height:1.8;color:var(--ek-muted);margin-top:12px}
 .collections li details>a{display:inline-block;padding:5px 0;margin-top:8px;font-size:.875rem;color:var(--ek-accent)}
 .collections summary:focus-visible{outline:3px solid var(--ek-accent);outline-offset:6px}
+
+/* Google Forms loads on demand; direct form links also work without JS. */
+.contact-actions>.button{color:var(--ek-button-text);font-size:.9375rem;border-bottom:0}
+.contact-open{overflow:hidden}
+.contact-dialog{width:min(720px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:0;margin:auto;border:1px solid var(--ek-border);border-radius:12px;background:var(--ek-panel);color:var(--ek-text);box-shadow:0 24px 80px #0004;overflow:auto}
+.contact-dialog::backdrop{background:rgb(8 16 30 / .65)}
+.dialog-header{display:flex;gap:20px;justify-content:space-between;align-items:start;padding:22px 24px 18px}
+.dialog-header h2{font-size:1.4rem;line-height:1.4;letter-spacing:-.03em}
+.dialog-header p,.form-fallback{font-size:.8125rem;line-height:1.7;color:var(--ek-muted);margin-top:6px}
+.dialog-close{flex-shrink:0;border:1px solid var(--ek-border);background:transparent;color:var(--ek-text);padding:8px 12px;min-height:40px;border-radius:5px;font-size:.875rem;cursor:pointer}
+.dialog-close:hover{background:var(--ek-soft)}
+.form-frame{background:#fff;color-scheme:light}
+.form-frame iframe{display:block;border:0;width:100%;height:min(965px,70dvh)}
+.form-fallback{padding:16px 24px;margin:0}
+.form-fallback a{color:var(--ek-accent);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:620px){.dialog-header{padding:18px 16px 14px;gap:12px}.dialog-header h2{font-size:1.2rem}.form-fallback{padding:14px 16px}.contact-dialog{border-radius:8px}.form-frame iframe{height:65dvh}}
