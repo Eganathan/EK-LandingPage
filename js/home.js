@@ -35,10 +35,10 @@
   if (toggle) {
     toggle.hidden = false;
     updateThemeControl();
+    window.addEventListener('ek-theme-change', updateThemeControl);
     toggle.addEventListener('click', () => {
       const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = theme;
-      try { localStorage.setItem('ek-theme', theme); } catch { /* Theme still works for this visit. */ }
+      window.EKTheme.save(theme);
       updateThemeControl();
     });
   }
