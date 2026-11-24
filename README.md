@@ -46,3 +46,11 @@ Use build, JavaScript syntax, local asset, and browser checks. Do not add tests.
 The Builder / Volunteer / Speaker explorer supports click, Left/Right, Home and End navigation. All panels are visible when JavaScript is unavailable. Recent projects and references use native expandable summaries; article links remain a horizontal scroll strip with Previous/Next controls when needed. Copy email reports success or a usable fallback, and light/dark preference persists locally and is shared across HTTPS eknath.dev subdomains. No messages are sent by these controls.
 
 Theme preference is implemented by generated js/ek-theme-preference.js (under the theme/static folder on Hugo sites). Load it before CSS. Dark is the default; an existing explicit choice is preserved. A valid ek-theme cookie on eknath.dev takes precedence over the per-origin local fallback. Switching theme writes only light/dark, with Domain=eknath.dev, Path=/, Max-Age=31536000, SameSite=Lax and Secure. Open pages resync on focus/visibility/pageshow. The cookie is only written on explicit theme selection. Other domains and localhost use localStorage only.
+
+## Unified site header
+
+The canonical component lives in Command Center shared/site-theme/header.html and ek-header.css. Theme sync generates it for Landing src/partials/header.html and the Hugo header partials, plus the same stylesheet in each public CSS folder. Do not hand-edit generated copies. Landing's build injects that partial, preserving its own page composition. Navigation is Home, Blog, Projects, QuickRef everywhere; only aria-current changes. Shared fixed grid sizing, always-reserved theme control and standardized root scrollbar prevent header movement between sites. Blog's local tools remain a separate secondary menu.
+
+## Metadata and crawler output
+
+The build renders title/description, canonical URL, Open Graph/Twitter tags and Person structured data from canonical profile data and SITE_URL. It emits robots.txt with sitemap discovery, a one-page sitemap.xml, and an optional llms.txt profile/link index. llms.txt is a plain-text convenience, not an indexing or ranking guarantee. Visible profile and metadata share the same maintained copy. Search Console indexing and search-result appearance have not been verified.

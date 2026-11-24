@@ -20,14 +20,19 @@ const items = (list, origin, compact = false) => (list || []).filter(item => new
   const time = Number.isNaN(date.getTime()) ? '' : `<time datetime="${escape(item.date)}">${escape(new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(date))}</time>`;
   return `<li class="recent-item"><a href="${escape(item.url)}">${compact ? '' : time}<h3>${escape(compact ? item.title.split(' - ')[0] : item.title)}</h3>${compact ? '' : `<p>${escape(item.description)}</p><span class="article-label">Read article</span>`}</a></li>`;
 }).join('\n');
-const structuredData = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Person', name: profile.name, alternateName: profile.nickname, url: publicUrl, image: publicImage, jobTitle: profile.jobTitle, worksFor: { '@type': 'Organization', name: profile.organisation }, knowsAbout: profile.interests, sameAs: [profile.linkedin, 'https://github.com/Eganathan', 'https://x.com/eknath_dev', 'https://stackoverflow.com/users/6462865/eknath', 'https://g.dev/eknath'] }).replace(/</g, '\\u003c');
-const values = { ...Object.fromEntries(Object.entries({ ...profile, ...landing }).map(([key, value]) => [key, escape(value)])), siteUrl: escape(publicUrl), siteImage: escape(publicImage), structuredData, blogItems: items(recent.blog, 'https://md.eknath.dev'), projectItems: items(recent.projects, 'https://projects.eknath.dev', true), quickrefItems: items(recent.quickref, 'https://qref.eknath.dev', true) };
+const structuredData = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Person', name: profile.name, description: profile.shortBio, alternateName: profile.nickname, url: publicUrl, image: publicImage, jobTitle: profile.jobTitle, worksFor: { '@type': 'Organization', name: profile.organisation }, knowsAbout: profile.interests, sameAs: [profile.linkedin, 'https://github.com/Eganathan', 'https://x.com/eknath_dev', 'https://stackoverflow.com/users/6462865/eknath', 'https://g.dev/eknath'] }).replace(/</g, '\\u003c');
+const siteHeader = await readFile(path.join(root, 'src/partials/header.html'), 'utf8');
+const values = { siteHeader, ...Object.fromEntries(Object.entries({ ...profile, ...landing }).map(([key, value]) => [key, escape(value)])), siteUrl: escape(publicUrl), siteImage: escape(publicImage), structuredData, blogItems: items(recent.blog, 'https://md.eknath.dev'), projectItems: items(recent.projects, 'https://projects.eknath.dev', true), quickrefItems: items(recent.quickref, 'https://qref.eknath.dev', true) };
 const template = await readFile(path.join(root, 'src/index.html'), 'utf8');
 const html = template.replace(/\{\{(\w+)\}\}/g, (_, key) => { if (!(key in values)) throw new Error(`Unknown template field ${key}`); return values[key]; });
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await writeFile(path.join(output, 'index.html'), html);
 await writeFile(path.join(output, '.nojekyll'), '');
+await writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${new URL('sitemap.xml', siteUrl).href}\n`);
+await writeFile(path.join(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escape(publicUrl)}</loc></url></urlset>\n`);
+await writeFile(path.join(output, 'llms.txt'), `# ${profile.name} (${profile.nickname})\n\n> ${profile.metaDescription}\n\n${profile.shortBio}\n\n## Website\n\n- [Profile](${publicUrl})\n- [Blog](https://md.eknath.dev/): Engineering articles and notes.\n- [Projects](https://projects.eknath.dev/): Projects and experiments.\n- [QuickRef](https://qref.eknath.dev/): Developer references.\n- [GitHub](https://github.com/Eganathan)\n- [LinkedIn](${profile.linkedin})\n`);
+
 // Explicit public assets only: PHP endpoints, deployment scripts and source stay out.
 for (const name of ['css', 'js', 'images', 'webfonts', 'favicon.ico']) await cp(path.join(root, name), path.join(output, name), { recursive: true });
 console.log('Static landing page built in dist/');

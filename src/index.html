@@ -13,6 +13,12 @@
   <meta property="og:url" content="{{siteUrl}}">
   <meta property="og:image" content="{{siteImage}}">
   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{pageTitle}}">
+  <meta name="twitter:description" content="{{metaDescription}}">
+  <meta name="twitter:image" content="{{siteImage}}">
+  <meta property="og:image:alt" content="Eganathan R (Eknath)">
+  <meta property="og:site_name" content="Eknath">
+  <meta name="robots" content="index, follow">
   <link rel="icon" href="./favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,22 +27,14 @@
   <link rel="stylesheet" href="./css/ek-tokens.css">
   <link rel="stylesheet" href="./css/fontawesome.min.css">
   <link rel="stylesheet" href="./css/home.css">
-  <script src="./js/home.js?v=shared-theme-1" defer></script>
+  <link rel="stylesheet" href="./css/ek-header.css?v=shared-header-1">
+  <script src="./js/home.js?v=shared-header-1" defer></script>
   <script type="application/ld+json">{{structuredData}}</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L8QX9CGTHF"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-L8QX9CGTHF');</script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header wrap">
-    <a class="wordmark" href="./" aria-label="Eknath home">eknath<span>.</span></a>
-    <nav aria-label="Main navigation">
-      <a href="https://md.eknath.dev/">Writing</a>
-      <a href="https://projects.eknath.dev/">Projects</a>
-      <a href="https://qref.eknath.dev/">QuickRef</a>
-    </nav>
-    <button class="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/></svg></button>
-  </header>
+  {{siteHeader}}
   <main id="main" class="wrap">
     <section class="hero" aria-labelledby="intro-title">
       <div class="hero-copy">
