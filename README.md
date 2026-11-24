@@ -14,7 +14,7 @@ Open http://127.0.0.1:1318/. Deploy only the contents of `dist/`.
 - `src/index.html`: page composition and metadata template.
 - `css/home.css`: Landing layout and responsive typography.
 - `js/home.js`: theme preference and optional recent-content refresh.
-- `data/landing.json`: Landing-specific introduction and editorial copy.
+- `data/landing.json`: Landing-specific editorial copy. The biography comes from canonical profile.json.
 - `data/profile.json`: generated from Command Center `shared/brand/profile.json`.
 - `data/recent.json`: fallback snapshot from Command Center `npm run content:sync`.
 - `css/ek-tokens.css`: generated from Command Center `shared/site-theme/ek-tokens.css`.
